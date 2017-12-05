@@ -133,7 +133,7 @@ public class JiebaSegmenterTest extends TestCase {
     public void testCutForSearch() {
         for (String sentence : sentences) {
             List<SegToken> tokens = segmenter.process(sentence, SegMode.SEARCH);
-            System.out.print(String.format(Locale.getDefault(), "\n%s\n%s", sentence, tokens.toString()));
+            System.out.print(String.format("\n%s\n%s", sentence, tokens.toString()));
         }
     }
 
@@ -142,7 +142,7 @@ public class JiebaSegmenterTest extends TestCase {
     public void testCutForIndex() {
         for (String sentence : sentences) {
             List<SegToken> tokens = segmenter.process(sentence, SegMode.INDEX);
-            System.out.print(String.format(Locale.getDefault(), "\n%s\n%s", sentence, tokens.toString()));
+            System.out.print(String.format("\n%s\n%s", sentence, tokens.toString()));
         }
     }
 
@@ -159,7 +159,7 @@ public class JiebaSegmenterTest extends TestCase {
                               "干脆就把那部蒙人的闲法给废了拉倒！RT @laoshipukong : 27日，全国人大常委会第三次审议侵权责任法草案，删除了有关医疗损害责任“举证倒置”的规定。在医患纠纷中本已处于弱势地位的消费者由此将陷入万劫不复的境地。 " };
         for (String sentence : bugs) {
             List<SegToken> tokens = segmenter.process(sentence, SegMode.SEARCH);
-            System.out.print(String.format(Locale.getDefault(), "\n%s\n%s", sentence, tokens.toString()));
+            System.out.print(String.format("\n%s\n%s", sentence, tokens.toString()));
         }
     }
 
@@ -176,7 +176,7 @@ public class JiebaSegmenterTest extends TestCase {
                 wordCount += sentence.length();
             }
         long elapsed = (System.currentTimeMillis() - start);
-        System.out.println(String.format(Locale.getDefault(), "time elapsed:%d, rate:%fkb/s, sentences:%.2f/s", elapsed,
+        System.out.println(String.format("time elapsed:%d, rate:%fkb/s, sentences:%.2f/s", elapsed,
             (length * 1.0) / 1024.0f / (elapsed * 1.0 / 1000.0f), wordCount * 1000.0f / (elapsed * 1.0)));
     }
 
@@ -193,7 +193,7 @@ public class JiebaSegmenterTest extends TestCase {
                 wordCount += sentence.length();
             }
         long elapsed = (System.currentTimeMillis() - start);
-        System.out.println(String.format(Locale.getDefault(), "time elapsed:%d, rate:%fkb/s, sentences:%.2f/s", elapsed,
+        System.out.println(String.format("time elapsed:%d, rate:%fkb/s, sentences:%.2f/s", elapsed,
             (length * 1.0) / 1024.0f / (elapsed * 1.0 / 1000.0f), wordCount * 1000.0f / (elapsed * 1.0)));
     }
 }

@@ -143,10 +143,18 @@ public class WordDictionary {
         loadUserDict(userDict, StandardCharsets.UTF_8);
     }
 
-
-    public void loadUserDict(Path userDict, Charset charset) {                
+    public void loadUserDict(Path userDict, Charset charset) {
         try {
-            BufferedReader br = Files.newBufferedReader(userDict, charset);
+            System.out.println(String.format(Locale.getDefault(), "loading user dict %s", userDict.toString()));
+            loadUserDict(Files.newInputStream(userDict), charset);
+        } catch (IOException e) {
+            System.err.println(String.format(Locale.getDefault(), "%s: load user dict failure!", userDict.toString()));
+        }
+    }
+
+    public void loadUserDict(InputStream userDict, Charset charset) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(userDict, charset));
             long s = System.currentTimeMillis();
             int count = 0;
             while (br.ready()) {
@@ -167,7 +175,7 @@ public class WordDictionary {
                 freqs.put(word, Math.log(freq / total));
                 count++;
             }
-            System.out.println(String.format(Locale.getDefault(), "user dict %s load finished, tot words:%d, time elapsed:%dms", userDict.toString(), count, System.currentTimeMillis() - s));
+            System.out.println(String.format(Locale.getDefault(), "user dict load finished, tot words:%d, time elapsed:%dms", count, System.currentTimeMillis() - s));
             br.close();
         }
         catch (IOException e) {
