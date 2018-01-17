@@ -7,4 +7,7 @@ import java.util.List;
  */
 public interface KeywordExtractor {
     List<String> extract(String sentence);
+    List<String> extract(String sentence, Integer topK);
+    List<String> extract(String sentence, Double minWeight);
+    List<String> extract(String sentence, Integer topK, Double minWeight);
 }

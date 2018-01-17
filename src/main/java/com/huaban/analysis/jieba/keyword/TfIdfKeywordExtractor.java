@@ -4,6 +4,7 @@ import com.huaban.analysis.jieba.JiebaTokenizer;
 import com.huaban.analysis.jieba.Tokenizer;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by zhangsihao on 2017/12/5.
@@ -19,10 +20,25 @@ public class TfIdfKeywordExtractor implements KeywordExtractor {
 
     @Override
     public List<String> extract(String sentence) {
+        return extract(sentence, null, null);
+    }
+
+    @Override
+    public List<String> extract(String sentence, Integer topK) {
+        return extract(sentence, topK, null);
+    }
+
+    @Override
+    public List<String> extract(String sentence, Double minWeight) {
+        return extract(sentence, null, minWeight);
+    }
+
+    @Override
+    public List<String> extract(String sentence, Integer topK, final Double minWeight) {
         Map<String, Double> freq = new HashMap<>();
         List<String> words = tokenizer.cut(sentence);
         for (String word : words) {
-            if (word.trim().length() < 2 || stopwordDictionary.contains(word.toLowerCase())) {
+            if (word.trim().length() < 2 || stopwordDictionary.contains(word.toLowerCase(Locale.getDefault()))) {
                 continue;
             }
             if (freq.containsKey(word)) {
@@ -45,6 +61,14 @@ public class TfIdfKeywordExtractor implements KeywordExtractor {
                 return o1.getValue().compareTo(o2.getValue());
             }
         });
+        if (minWeight != null) {
+            entryList = entryList.stream().filter(entry -> entry.getValue() >= minWeight).collect(Collectors.toList());
+        }
+        if (topK != null) {
+            if (entryList.size() >= topK) {
+                entryList = entryList.subList(0, topK);
+            }
+        }
         List<String> keywords = new ArrayList<>();
         for (Map.Entry<String, Double> entry : entryList) {
             keywords.add(entry.getKey());

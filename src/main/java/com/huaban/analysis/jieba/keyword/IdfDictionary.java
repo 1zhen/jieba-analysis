@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -32,7 +33,7 @@ public class IdfDictionary {
     }
 
     public void load(InputStream is) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         try {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -42,7 +43,7 @@ public class IdfDictionary {
                     Double idf = Double.parseDouble(parts[1]);
                     idfFreq.put(parts[0], idf);
                 } catch (Exception e) {
-                    System.err.println(String.format("Illegal idf data. %s", line));
+                    System.err.println(String.format(Locale.getDefault(), "Illegal idf data. %s", line));
                 }
             }
             List<Double> vals = new ArrayList<>(idfFreq.values());
@@ -51,7 +52,7 @@ public class IdfDictionary {
             else medianIdf = vals.get(vals.size() / 2);
             System.out.println("Loaded stop word dictionary");
         } catch (Exception e) {
-            System.err.println(String.format("Failed to load stop word dictionary. %s", e));
+            System.err.println(String.format(Locale.getDefault(), "Failed to load stop word dictionary. %s", e));
         } finally {
             try {
                 reader.close();

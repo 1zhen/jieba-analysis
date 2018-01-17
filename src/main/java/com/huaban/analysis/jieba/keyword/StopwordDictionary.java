@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 /**
  * Created by zhangsihao on 2017/12/5.
@@ -34,7 +32,7 @@ public class StopwordDictionary implements Collection<String> {
     }
 
     public void load(InputStream is) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         try {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -45,7 +43,7 @@ public class StopwordDictionary implements Collection<String> {
             }
             System.out.println("Loaded stop word dictionary");
         } catch (Exception e) {
-            System.err.println(String.format("Failed to load stop word dictionary. %s", e));
+            System.err.println(String.format(Locale.getDefault(), "Failed to load stop word dictionary. %s", e));
         } finally {
             try {
                 reader.close();
